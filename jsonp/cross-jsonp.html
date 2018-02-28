@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>跨域JSONP</title>
+</head>
+<body>
+  
+  <script>
+    // var url1 = 'https://www.v2ex.com/api/members/show.json' 不支持JSONP
+  var url1 = 'http://api.jirengu.com/weather.php';
+  var url2 = 'http://api.jirengu.com/fm/getChannels.php';
+
+  function jsonp(url,next){
+    var fnName = 'xinxin' + Math.floor(Math.random()*100);
+    var script = document.createElement('script');
+    
+    window[fnName] = next;
+    script.src = url + '?callback=' + fnName;
+    document.head.appendChild(script);
+  }
+    
+  jsonp(url1, function (data) {
+    console.log('第一次的数据');
+    console.log(data)
+  });
+  jsonp(url2,function(data){
+    console.log('第二次的数据');
+    console.log(data);
+  })
+  </script>
+</body>
+</html>
